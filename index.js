@@ -1,3 +1,4 @@
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-require("dotenv").config();
-require("./server/server");
+#!/usr/bin/env node
+const { program } = require("./cli/commands/commands");
+
+program.parse(process.argv);

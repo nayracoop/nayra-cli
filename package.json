@@ -1,5 +1,5 @@
 {
-  "name": "nayra-cms-api",
+  "name": "nayra-cli",
   "version": "1.0.0",
   "main": "index.js",
   "description": "a CLI for Nayra CMS API",
@@ -8,12 +8,12 @@
     "testFiles": "+(cli)/**/{,**/}*.test.js"
   },
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index.js",
-    "cms-init": "node cli/index.js init",
+    "cms-init": "node ./index.js init",
     "migrations": "cd tasks && jake migrate",
-    "cms-add-resource": "cd cli && node ./index.js add-resource",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text-summary ./node_modules/mocha/bin/mocha --recursive $npm_package_config_testFiles --exit"
+    "cms-add-resource": "node ./index.js add-resource"
+  },
+  "bin": {
+    "nayra-api": "./index.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -73,11 +73,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:nayracoop/nayra-cms-api.git"
+    "url": "git@github.com:nayracoop/nayra-cli.git"
   },
   "author": "nayracoop",
   "bugs": {
-    "url": "https://github.com/nayracoop/nayra-cms-api/issues"
+    "url": "https://github.com/nayracoop/nayra-cli/issues"
   },
   "homepage": "https://nayra.coop",
   "engines": {
