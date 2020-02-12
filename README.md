@@ -23,6 +23,7 @@ to access all nayra-cli scripts globally.
 and provide information about project to be created.
 
  :zap:Inside created directory run 
+**`npm install`**
 **`npm run migrations`**
 so a super-admin user is created onto DB with provided username and password.
 
