@@ -28,10 +28,10 @@ function basicMigration() {
 }
 
 
-function createSuperAdminMigration({ username, email, password }) {
+function createSuperAdminMigration({ appName, username, email, password }) {
   const templateFileName = path.join(__dirname, "..", "templates", "migration.template.js.ejs");
   const workingDirectory = process.cwd();
-  const destinationFileName = path.join(workingDirectory, `tasks/migrations/${timestamp}_create_super_admin_user.js`);
+  const destinationFileName = path.join(workingDirectory, appName,`tasks/migrations/${timestamp}_create_super_admin_user.js`);
 
   const template = fs.readFileSync(templateFileName, "utf8");
 

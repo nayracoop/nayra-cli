@@ -3,7 +3,23 @@ const chalk = require("chalk");
 const boxen = require("boxen");
 const { createSuperAdminMigration } = require("../utils/migration");
 const log = require("../utils/logger");
+const git = require("download-git-repo");
 
+const fs = require('fs')
+const https = require('https')
+
+function download(url, dest, cb) {
+  const file = fs.createWriteStream(dest);
+  const request = https.get(url, function (response) {
+      response.pipe(file);
+      file.on('finish', function () {
+          file.close(cb);  // close() is async, call cb after close completes.
+      });
+  }).on('error', function (err) { // Handle errors
+      fs.unlink(dest); // Delete the file async. (But we don't check the result)
+      if (cb) cb(err.message);
+  });
+};
 
 function askInitialQuestions() {
   const questions = [
@@ -13,9 +29,10 @@ function askInitialQuestions() {
       message: `Enter a ${chalk.keyword("orange")("name")} of your project`,
       validate: (value) => {
         if (value) {
-          return true;
+          const match = value.match(/^(?=.{5,20}$)[0-9a-zA-Z_-]+$/);
+          return (match) ? true : "Please provide a valid username (alphanumeric and dashes, no spaces, 5-20 characters)";
         }
-        return "Please don't forget to enter your app name, gracia!";
+        // return "Please don't forget to enter your app name, gracia!";
       }
     },
     {
@@ -58,14 +75,31 @@ function askInitialQuestions() {
 }
 
 const initializeCms = async () => {
+
   const initData = await askInitialQuestions();
-  const { username, email, password } = initData;
-  createSuperAdminMigration({ username, email, password });
+  const {appName, username, email, password } = initData;
+
+  log.info("Downloading last version of Nayra CMS API from Github");
+  try {
+    git("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
+      if (err) console.error(err)
+
+      // uses the sync file system 
+      createSuperAdminMigration({ appName, username, email, password });
+    });
+  } catch (e) {
+    if (e instanceof TypeError) {
+      console.log(e);
+    } else {
+      console.log(e);
+    }
+  }
+
   log.info(boxen(`The cms ${chalk.keyword("darkorange")(initData.appName)} has been created! \n`
-  + "Please run \"npm run migrations\" to create user and account and then"
-  + ` login using username ${chalk.keyword("darkorange")(initData.username)} and password. \n`
-  + "\nUse --help to see all cli commands",
-  { padding: 1 }));
+    + "Please run \"npm run migrations\" to create user and account and then"
+    + ` login using username ${chalk.keyword("darkorange")(initData.username)} and password. \n`
+    + "\nUse --help to see all cli commands",
+    { padding: 1 }));
 };
 
 module.exports = {
