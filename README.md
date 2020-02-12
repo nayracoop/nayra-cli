@@ -34,3 +34,6 @@ Please make sure to update tests as appropriate.
 
 ## License
 [GPL-3.0] GNU General Public License v3.0
+
+<img src="https://img.shields.io/badge/licence-GPL--3-brightgreen" alt="licence GNU General Public License v3.0">
+<img src="https://img.shields.io/badge/release-0.0.0-orange" alt="release version 0.0.0">
