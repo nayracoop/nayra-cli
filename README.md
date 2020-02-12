@@ -2,7 +2,7 @@
 
 Command line tool for boilerplating commonly-used code structures.
 This is a work in progress. 
-Currently it can create from scratch a cms API and add resources to it with script ```nayra-api```
+Currently has script ```nayra-api``` for creating from scratch a ready-to-use API folder structure with admin user, and adding resources to it. 
 
 ## Installation
 
@@ -11,8 +11,6 @@ Clone repo, run
 to install dependencies and then
 ```npm link``` 
 to access nayra-cli scripts globally.
-
-Also, you have to have installed globally node and mongo ? 
 
 ## Usage
 
