@@ -1,7 +1,9 @@
 # nayra-cli
+<img src="https://img.shields.io/badge/licence-GPL--3-brightgreen" alt="licence GNU General Public License v3.0"><img src="https://img.shields.io/badge/release-0.0.0-orange" alt="release version 0.0.0">
+
 
 Command line tool for boilerplating commonly-used code structures.
-This is a work in progress. 
+ :sparkles: This is a work in progress. :sparkles:
 Currently has script ```nayra-api``` for creating from scratch a ready-to-use API folder structure with admin user, and adding resources to it. 
 
 ## Installation
@@ -34,6 +36,3 @@ Please make sure to update tests as appropriate.
 
 ## License
 [GPL-3.0] GNU General Public License v3.0
-
-<img src="https://img.shields.io/badge/licence-GPL--3-brightgreen" alt="licence GNU General Public License v3.0">
-<img src="https://img.shields.io/badge/release-0.0.0-orange" alt="release version 0.0.0">
