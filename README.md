@@ -17,18 +17,15 @@ Also, you have to have installed globally node and mongo ?
 ## Usage
 
 To create a new API folder structure inside current directory run
-```nayra-api init
-```
+```nayra-api init```
 and provide information about project to be created.
 
 Inside created directory run 
-```npm run migrations
-```
+```npm run migrations```
 so a super-admin user is created onto DB with provided username and password.
 
 To create new resources inside API (with model, endpoints and tests), run
-```nayra-api add-resource
-```
+```nayra-api add-resource```
 and provide information about new entity's name and model's fields names and type. 
 
 
