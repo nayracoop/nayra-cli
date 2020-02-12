@@ -31,7 +31,7 @@ so a super-admin user is created onto DB with provided username and password.
 
  :zap:Then run
 **`npm run dev`**
-to start the app in dev environment! That's it!
+to start the API in dev environment! That's it!
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
