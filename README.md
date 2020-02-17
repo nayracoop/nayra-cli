@@ -16,14 +16,19 @@ to install dependencies and then
 **`npm link`** 
 to access all nayra-cli scripts globally.
 
+## Pre-requirements
+
+For being able to run the API created with this tool, you must have Node and MongoDB installed globally on your computer. 
+
 ## Usage
 
  :zap:To create a new API folder structure inside current directory run
 **`nayra-api init`**
 and provide information about project to be created.
 
- :zap:Inside created directory run 
-**`npm install`** and then
+ :zap:Inside created directory, create a **`.env`** file copying **`.env-example`** and replacing with your environment information and JWT secret key.
+ 
+ :zap: Run **`npm install`** and then
 **`npm run migrations`**
 so a super-admin user is created onto DB with provided username and password.
 
