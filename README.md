@@ -18,7 +18,7 @@ to access all nayra-cli scripts globally.
 
 ## Pre-requirements
 
-For being able to run the API created with this tool, you must have Node and MongoDB installed globally on your computer. 
+To run the API project created with this tool, you must have Node and MongoDB installed globally on your computer. 
 
 ## Usage
 
