@@ -1,5 +1,6 @@
 
-require("dotenv").config({ path: "../.env" });
+// be careful this env is the env of the API installation
+require("dotenv").config();
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const boxen = require("boxen");
@@ -13,8 +14,6 @@ const log = require("../utils/logger");
 const { createDir, createFile } = require("../utils/files");
 
 const apiPath = "../server/api";
-const routesConfig = "../../server/config/routes.config.js";
-
 
 const capitalize = (s) => {
   if (typeof s !== "string") return "";
@@ -87,18 +86,18 @@ const registerNewRoutes = (resourceSingular) => {
   let fileLineNumber = null;
   let initLineNumber = null;
 
-  const data = fs.readFileSync(`${__dirname}/${routesConfig}`).toString().split("\n");
+  const workingDirectory = process.cwd();
+  const routesConfig = path.join(workingDirectory, "server/config/routes.config.js");
+  const data = fs.readFileSync(routesConfig).toString().split("\n");
 
   // search for marker strings and get line numbers. maybe not the best way
   data.forEach((line, index) => {
     if (line.match(routeFileMarker)) {
       fileLineNumber = index;
-      // console.log(`${index} - ${line}`);
     }
 
     if (line.match(routeInitMarker)) {
       initLineNumber = index;
-      // console.log(`${index} - ${line}`);
     }
   });
 
@@ -109,7 +108,7 @@ const registerNewRoutes = (resourceSingular) => {
 
   const text = data.join("\n");
 
-  fs.writeFile(`${__dirname}/${routesConfig}`, text, (err) => {
+  fs.writeFile(routesConfig, text, (err) => {
     if (err) return console.log(err);
   });
 };
@@ -146,7 +145,7 @@ const addNewResource = async () => {
 
   const workingDirectory = process.cwd();
 
-  const resourcePath = path.join(workingDirectory, "..", "server/api", modelNameLower);
+  const resourcePath = path.join(workingDirectory, "server/api", modelNameLower);
   createDir(resourcePath);
 
   filesToCreate.forEach((file) => {
@@ -157,13 +156,13 @@ const addNewResource = async () => {
     const index = file.indexOf(".");
     if (index > 0) {
       const folderName = file.substring(0, index);
-      const destinationFolderPath = path.join(workingDirectory, "..", "server", "api", modelNameLower, folderName);
+      const destinationFolderPath = path.join(workingDirectory, "server", "api", modelNameLower, folderName);
       let destinationFilePath = null;
 
       if (folderName === "test") {
-        destinationFilePath = path.join(workingDirectory, "..", "server", "api", modelNameLower, folderName, `${modelNameLower}.${folderName}.js`);
+        destinationFilePath = path.join(workingDirectory, "server", "api", modelNameLower, folderName, `${modelNameLower}.${folderName}.js`);
       } else {
-        destinationFilePath = path.join(workingDirectory, "..", "server", "api", modelNameLower, folderName, `${modelNameLower}-${folderName}.js`);
+        destinationFilePath = path.join(workingDirectory, "server", "api", modelNameLower, folderName, `${modelNameLower}-${folderName}.js`);
       }
 
       createDir(destinationFolderPath);
