@@ -26,7 +26,7 @@ function askInitialQuestions() {
     {
       name: "appName",
       type: "input",
-      message: `Enter a ${chalk.keyword("orange")("name")} of your project`,
+      message: `Enter a name for your API project`,
       validate: (value) => {
         if (value) {
           const match = value.match(/^(?=.{5,20}$)[0-9a-zA-Z_-]+$/);
@@ -38,7 +38,7 @@ function askInitialQuestions() {
     {
       name: "username",
       type: "input",
-      message: "Enter username (alphanumeric and dashes, no spaces, 5-20 characters)",
+      message: "Enter username for the API superadmin(alphanumeric and dashes, no spaces, 5-20 characters)",
       validate: (value) => {
         const match = value.match(/^(?=.{5,20}$)[0-9a-zA-Z_-]+$/);
         return (match) ? true : "Please provide a valid username (alphanumeric and dashes, no spaces, 5-20 characters)";
@@ -47,12 +47,12 @@ function askInitialQuestions() {
     {
       name: "email",
       type: "input",
-      message: "Enter email"
+      message: "Enter email for the API superadmin"
     },
     {
       name: "password",
       type: "password",
-      message: "Enter password",
+      message: "Enter password for the API superadmin",
       mask: "*",
       validate: (value) => {
         if (value.length > 5) {
@@ -75,6 +75,18 @@ function askInitialQuestions() {
   return inquirer.prompt(questions);
 }
 
+// not in use yet
+function askInstallDependeciesNow(){
+  return inquirer.prompt(
+    {
+      name: "install",
+      message: "Do you want to install dependencies now?",
+      type: "confirm",
+      default: true
+    }
+  )
+}
+
 const initializeCms = async () => {
 
   const initData = await askInitialQuestions();
@@ -84,7 +96,6 @@ const initializeCms = async () => {
   try {
     git("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
       if (err) log.error(err)
-
       // uses the sync file system 
       createSuperAdminMigration({ appName, username, email, password });
     });
@@ -96,11 +107,13 @@ const initializeCms = async () => {
     }
   }
 
-  log.info(boxen(`The cms ${chalk.keyword("darkorange")(initData.appName)} has been created! \n`
+  log.info(boxen(`The cms ${chalk.keyword("dodgerblue")(initData.appName)} has been created! \n`
     + `Please run ${chalk.yellow(`\"cd ${initData.appName} && npm install\"`)} to install dependencies.\n\n`
-    + `Then run ${chalk.yellow("\"npm run migrations\"")} to create user and account in data base.\n\n`
+    + `${chalk.cyan("DONT FORGET to copy .env-example into .env file")}\n`
+    + `${chalk.cyan("and replace with custom env data and keys!!")}\n\n`
+    + `To create superadmin in data base, run ${chalk.yellow("\"npm run migrations\"")}.\n`
     + `To start the app in dev mode run ${chalk.yellow("\"npm run dev\"")}.\n`
-    + `You can login using username ${chalk.keyword("darkorange")(initData.username)} and password. \n`
+    + `You can login using username ${chalk.keyword("mediumseagreen")(initData.username)} and password. \n`
     + "\nUse --help to see all cli commands",
     { padding: 1 }));
 };
