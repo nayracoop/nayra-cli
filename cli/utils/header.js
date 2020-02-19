@@ -3,17 +3,18 @@ const figlet = require("figlet");
 const chalk = require("chalk");
 const log = require("./logger");
 
-const cliHeader = () => {
+const cliHeader = (title) => {
   // clean the console
+  const string = title || "NAYRA CLI";
   clear();
   // some unnecessary but nice ascii art
   log.info(
-    chalk.keyword("darkorange")(
+    chalk.keyword("cyan")(
       figlet.textSync(
-        "nayra cli",
+        string,
         {
           horizontalLayout: "full",
-          font: "Roman"
+          font: "Cybermedium"
         }
       )
     )

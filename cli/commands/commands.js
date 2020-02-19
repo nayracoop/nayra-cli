@@ -15,7 +15,7 @@ program
   .command("init")
   .description("handle the CMS installation and basic configuration")
   .action(() => {
-    cliHeader();
+    cliHeader("NAYRA CLI API Init");
     initializeCms();
   });
 
@@ -23,6 +23,7 @@ program
   .command("add-resource")
   .description("creates a new API REST resource")
   .action(() => {
+    cliHeader("CLI add resource");
     ResourceHelper.addNewResource();
   });
 
