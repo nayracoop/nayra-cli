@@ -12,7 +12,7 @@ program.version("nayra cms cli v0.0.0");
 
 // actions list
 program
-  .command("init")
+  .command("init-api")
   .description("handle the CMS installation and basic configuration")
   .action(() => {
     cliHeader("NAYRA CLI API Init");
