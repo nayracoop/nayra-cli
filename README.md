@@ -40,7 +40,7 @@ to start the API in dev environment! That's it! You can login with the username 
 ### Creating a new resources on the project
  :zap:To create new resources inside API (with model, endpoints and tests), run
 **`nayra-api add-resource`** and provide information about new entity's name and model's fields names and types. 
-The new resource's folder gets created in the /api folder, with model, basic controller, endpoints and tests. Also routes are registered in the routes index. You can start creating and managing new resources with your user account loged in right away! 
+The new resource's folder gets created in the /api folder, with model, basic controller, endpoints and tests. Also routes are registered in the routes index. You can start creating and managing new resources with your user account logged in right away! 
 
 
 ## Contributing
