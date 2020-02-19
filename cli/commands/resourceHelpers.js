@@ -25,7 +25,7 @@ function askResourceQuestions() {
     {
       name: "modelName",
       type: "input",
-      message: `Enter the ${chalk.keyword("orange")("name")} of the new model (singular)`,
+      message: `Enter the name of the new model (singular)`,
       validate: (value) => {
         const match = value.match(/^(?=.{2,30}$)[0-9a-zA-Z]+$/);
         return (match) ? true : "Please provide a valid plural model name (only alphanumeric characters, no spaces)";
@@ -34,7 +34,7 @@ function askResourceQuestions() {
     {
       name: "modelNamePlural",
       type: "input",
-      message: `Enter the ${chalk.keyword("orange")("plural name")} of the new model`,
+      message: `Enter the plural name of the new model`,
       validate: (value) => {
         const match = value.match(/^(?=.{2,30}$)[0-9a-zA-Z]+$/);
         return (match) ? true : "Please provide a valid plural model name (only alphanumeric characters, no spaces)";
@@ -49,18 +49,29 @@ function askSchemaFields() {
     {
       name: "fieldName",
       type: "input",
-      message: `Enter the ${chalk.keyword("green")("field name")} using camel case:`
+      message: `Enter the ${chalk.keyword("mediumseagreen")("field name")} using camel case:`
     },
     {
       name: "fieldType",
       type: "list",
-      message: `Select the ${chalk.keyword("green")("field type")} from the following list:`,
-      choices: ["String", "Number", "Date", "Buffer", "Boolean", "Mixed", { value: "mongoose.Schema.Types.ObjectId", name: "ObjectId" }, "Array", "Decimal128", "Map"]
+      message: `Select the ${chalk.keyword("mediumseagreen")("field type")} from the following list:`,
+      choices: [
+        "String",
+        "Number", 
+        "Date",
+        "Buffer",
+        "Boolean",
+        // "Mixed",
+        { value: "mongoose.Schema.Types.ObjectId", name: "ObjectId" },
+        "Array",
+        "Decimal128",
+        "Map"
+      ]
     },
     {
       name: "fieldProps",
       type: "checkbox",
-      message: `Select with space bar if the field is ${chalk.keyword("green")("required")} and/or ${chalk.keyword("green")("unique")} or none:`,
+      message: `Select with space bar if the field is ${chalk.keyword("mediumseagreen")("required")} and/or ${chalk.keyword("mediumseagreen")("unique")} or none:`,
       choices: ["required", "unique"]
     },
     {
@@ -120,7 +131,7 @@ const addNewResource = async () => {
 
   // ask for fields - not generating the schema template yet (WIP)
   log.info("\n");
-  log.info(`Insert the fields for ${chalk.keyword("yellow")(modelName)} schema`);
+  log.info(`Insert the fields for ${chalk.keyword("coral")(modelName)} schema`);
   while (continueAskingFields) {
     const { addNew, fieldName, fieldType, fieldProps } = await askSchemaFields();
     fieldList.push({ fieldName, fieldType, fieldProps });
@@ -172,7 +183,7 @@ const addNewResource = async () => {
 
   registerNewRoutes(modelNameLower);
 
-  log.info(boxen(`Resource ${chalk.keyword("orange")(modelName)} has been created succesfully!`, { padding: 1 }));
+  log.info(boxen(`Resource ${chalk.keyword("coral")(modelName)} has been created succesfully!`, { padding: 1 }));
 };
 
 module.exports = {
