@@ -87,6 +87,26 @@ function askInstallDependeciesNow(){
   )
 }
 
+function showInstructions(initData) {
+  log.info(boxen(`The cms ${chalk.keyword("dodgerblue")(initData.appName)} has been created! \n`
+  + `Please run ${chalk.yellow(`\"cd ${initData.appName} && npm install\"`)} to install dependencies.\n\n`
+  + `${chalk.cyan("DONT FORGET to copy .env-example into .env file")}\n`
+  + `${chalk.cyan("and replace with custom env data and keys!!")}\n\n`
+  + `To create superadmin in data base, run ${chalk.yellow("\"npm run migrations\"")}.\n`
+  + `To start the app in dev mode run ${chalk.yellow("\"npm run dev\"")}.\n`
+  + `You can login using username ${chalk.keyword("mediumseagreen")(initData.username)} and password. \n`
+  + "\nUse --help to see all cli commands",
+  { padding: 1 }));
+}
+
+function editPackageData(appName) {
+  let rawdata = fs.readFileSync(`./${appName}/package.json`);
+  let package = JSON.parse(rawdata);
+  package.name = appName;
+  let data = JSON.stringify(package, null, 2);
+  fs.writeFileSync(`./${appName}/package.json`, data);
+}
+
 const initializeCms = async () => {
 
   const initData = await askInitialQuestions();
@@ -98,6 +118,9 @@ const initializeCms = async () => {
       if (err) log.error(err)
       // uses the sync file system 
       createSuperAdminMigration({ appName, username, email, password });
+      // change sync the app name in the package
+      editPackageData(appName)
+      showInstructions(initData);
     });
   } catch (e) {
     if (e instanceof TypeError) {
@@ -106,16 +129,6 @@ const initializeCms = async () => {
       log.error(e);
     }
   }
-
-  log.info(boxen(`The cms ${chalk.keyword("dodgerblue")(initData.appName)} has been created! \n`
-    + `Please run ${chalk.yellow(`\"cd ${initData.appName} && npm install\"`)} to install dependencies.\n\n`
-    + `${chalk.cyan("DONT FORGET to copy .env-example into .env file")}\n`
-    + `${chalk.cyan("and replace with custom env data and keys!!")}\n\n`
-    + `To create superadmin in data base, run ${chalk.yellow("\"npm run migrations\"")}.\n`
-    + `To start the app in dev mode run ${chalk.yellow("\"npm run dev\"")}.\n`
-    + `You can login using username ${chalk.keyword("mediumseagreen")(initData.username)} and password. \n`
-    + "\nUse --help to see all cli commands",
-    { padding: 1 }));
 };
 
 module.exports = {
