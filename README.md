@@ -6,7 +6,7 @@ Command line tool for boilerplating commonly-used code structures.
 
  :sparkles: **This project doesn't have any published versions yet** :sparkles:
 
-Currently **```nayra-cli```** has scripts for creating from scratch a ready-to-use API folder structure with admin user, and adding resources to it. You can see the base API code in [nayra-cms-api](https://github.com/nayracoop/nayra-cms-api)
+Currently **```nayra-cli```** has scripts for creating from scratch a ready-to-use REST API folder structure with admin user, and adding resources to it. You can see the base API code in [nayra-cms-api](https://github.com/nayracoop/nayra-cms-api)
 
 ## Installation
 
