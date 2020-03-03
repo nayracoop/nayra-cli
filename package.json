@@ -8,12 +8,12 @@
     "testFiles": "+(cli)/**/{,**/}*.test.js"
   },
   "scripts": {
-    "cms-init": "node ./index.js init",
+    "init-api": "node ./index.js init-api",
     "migrations": "cd tasks && jake migrate",
-    "cms-add-resource": "node ./index.js add-resource"
+    "add-resource": "node ./index.js add-resource"
   },
   "bin": {
-    "nayra-api": "./index.js"
+    "nayra-cli": "./index.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
