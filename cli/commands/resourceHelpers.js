@@ -77,8 +77,7 @@ function askSchemaFields() {
 /**
  * read route file for register new routes
  */
-
-const registerNewRoutes = (resourceSingular) => {
+const registerNewRoutes = (resourceSingular, workingDirectory) => {
   // these markers are used to find the required line numbers for route registering
   const routeFileMarker = /route definition/;
   const routeInitMarker = /routes initializers/;
@@ -86,7 +85,6 @@ const registerNewRoutes = (resourceSingular) => {
   let fileLineNumber = null;
   let initLineNumber = null;
 
-  const workingDirectory = process.cwd();
   const routesConfig = path.join(workingDirectory, "server/config/routes.config.js");
   const data = fs.readFileSync(routesConfig).toString().split("\n");
 
@@ -170,7 +168,7 @@ const addNewResource = async () => {
     }
   });
 
-  registerNewRoutes(modelNameLower);
+  registerNewRoutes(modelNameLower, process.cwd);
 
   log.info(boxen(`Resource ${chalk.keyword("orange")(modelName)} has been created succesfully!`, { padding: 1 }));
 };
