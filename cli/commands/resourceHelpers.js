@@ -8,15 +8,10 @@ const path = require("path");
 const fs = require("fs");
 const ejs = require("ejs");
 
-
 const log = require("../utils/logger");
+const { capitalize } = require("../utils/text");
 const { createDir, createFile } = require("../utils/files");
 const { askResourceQuestions, askSchemaFields } = require("./questions");
-
-const capitalize = (s) => {
-  if (typeof s !== "string") return "";
-  return s.charAt(0).toUpperCase() + s.slice(1);
-};
 
 /**
  * read route file for register new routes
@@ -46,13 +41,9 @@ const registerNewRoutes = (resourceSingular, workingDirectory) => {
   if (fileLineNumber && initLineNumber) {
     data.splice(fileLineNumber, 0, `const { ${capitalize(resourceSingular)}Routes } = require("../api/${resourceSingular}/routes/${resourceSingular}-routes");\n`);
     data.splice(initLineNumber, 0, `    ${capitalize(resourceSingular)}Routes.init(router);`);
+    const text = data.join("\n");
+    createFile(routesConfig, text);
   }
-
-  const text = data.join("\n");
-
-  fs.writeFile(routesConfig, text, (err) => {
-    if (err) return console.log(err);
-  });
 };
 
 const addNewResource = async () => {

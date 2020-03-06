@@ -3,29 +3,23 @@ const path = require("path");
 const log = require("./logger");
 
 const createDir = (dirPath) => {
-  let created = false;
-  fs.mkdirSync(dirPath, { recursive: true }, (err) => {
-    if (err) {
-      log.error("There was an error: ", err);
-      throw err;
-    } else {
-      log.info("Done! new dir created");
-      created = true;
-    }
-  });
-
-  return created;
+  // think if should be better to use async variant
+  try {
+    fs.mkdirSync(dirPath, { recursive: true });
+    log.info(`new dir created: ${path.basename(dirPath)}"`);
+  } catch (err) {
+    log.error("There was an error: ", err);
+  }
 };
 
 const createFile = (_path, content) => {
-  fs.writeFileSync(_path, content, (err) => {
-    if (err) {
-      log.error("There was an error: ", err);
-      throw err;
-    } else {
-      log.info("Done! new file created");
-    }
-  });
+  // think if should be better to use async variant
+  try {
+    fs.writeFileSync(_path, content);
+    log.info(`new file created: ${path.basename(_path)}"`);
+  } catch (err) {
+    log.error("There was an error when trying to create a file: ", err);
+  }
 };
 
 const getCurrentDirectoryBase = () => {
