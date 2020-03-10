@@ -1,1 +1,0 @@
-# Nayra CMS api

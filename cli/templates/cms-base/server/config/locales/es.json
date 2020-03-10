@@ -1,5 +1,0 @@
-{
-	"server_up": "Server running on: {{hostname}} and port: {{port}}",
-	"server_environment": "Server environment: {{nodeEnv}}",
-	"available_on": "Available on: http://{{hostUri}}"
-}
