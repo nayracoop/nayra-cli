@@ -10,7 +10,8 @@
   "scripts": {
     "init-api": "node ./index.js init-api",
     "migrations": "cd tasks && jake migrate",
-    "add-resource": "node ./index.js add-resource"
+    "add-resource": "node ./index.js add-resource",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text-summary ./node_modules/mocha/bin/mocha --recursive $npm_package_config_testFiles --exit"
   },
   "bin": {
     "nayra-cli": "./index.js"

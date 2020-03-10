@@ -21,13 +21,16 @@ function basicMigration() {
     cb(null, true);
   }
   `;
-  fs.writeFile(destinationFileName, template, (err, file) => {
-    if (err) throw err;
+
+  try {
+    fs.writeFileSync(destinationFileName, template);
     log.info(`Created migration template ${destinationFileName}`);
-  });
+  } catch (err) {
+    log.error(`An error ocurred creating migration template: ${err}`);
+  }
 }
 
-
+// in this case is prefered to use sync file writing
 function createSuperAdminMigration({ appName, username, email, password }) {
   const templateFileName = path.join(__dirname, "..", "templates", "migration.template.js.ejs");
   const workingDirectory = process.cwd();
@@ -40,13 +43,14 @@ function createSuperAdminMigration({ appName, username, email, password }) {
     cliUsername: username,
     cliEmail: email
   });
-
-  fs.writeFileSync(destinationFileName, contents, (err, file) => {
-    if (err) throw err;
+  
+  try {
+    fs.writeFileSync(destinationFileName, contents);
     log.info(`Created superadmin migration ${destinationFileName}`);
-  });
+  } catch (err) {
+    log.error(`An error ocurred creating migration template: ${err}`);
+  }
 }
-
 
 module.exports = ({
   basicMigration,

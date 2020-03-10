@@ -46,22 +46,14 @@ const initializeCms = async () => {
   const {appName, username, email, password } = initData;
 
   log.info("\nDownloading last version of Nayra CMS API from Github...");
-  try {
-    git("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
-      if (err) log.error(err);
-      // uses the sync file system 
-      createSuperAdminMigration({ appName, username, email, password });
-      // change sync the app name in the package
-      editPackageData(appName);
-      showInstructions(initData);
-    });
-  } catch (e) {
-    if (e instanceof TypeError) {
-      log.error(e);
-    } else {
-      log.error(e);
-    }
-  }
+  git("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
+    if (err) log.error(err);
+    // uses the sync file system 
+    createSuperAdminMigration({ appName, username, email, password });
+    // change sync the app name in the package
+    editPackageData(appName);
+    showInstructions(initData);
+  });
 };
 
 module.exports = {
