@@ -5,7 +5,7 @@ const { addUser } = require("../commands/add-user");
 
 let spyConsole = null;
 
-describe("add-user", () => {
+describe.skip("add-user", () => {
   beforeEach(() => {
     spyConsole = sandbox.spy(console, "log");
   });
@@ -14,7 +14,7 @@ describe("add-user", () => {
     spyConsole.restore();
   });
 
-  it.skip("should call the console log", () => {
+  it("should call the console log", () => {
     addUser();
     expect(spyConsole.calledOnce).to.be.eql(true);
   });

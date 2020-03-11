@@ -13,7 +13,7 @@ const resourceFolders = [
   "controller", "dao", "model", "routes", "tests"
 ];
 
-describe("add-resource", () => {
+describe.skip("add-resource", () => {
   beforeEach(() => {
     spyConsole = sandbox.spy(console, "log");
     stubFiles = sandbox.stub(fs, "writeFileSync").returns(true);
