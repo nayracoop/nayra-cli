@@ -1,13 +1,10 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 const boxen = require("boxen");
-const { createSuperAdminMigration } = require("../utils/migration");
+const migrationHelper = require("../utils/migration");
 const log = require("../utils/logger");
-const git = require("download-git-repo");
-
-const fs = require('fs');
-const https = require('https');
-const { askInitialQuestions } = require("./questions");
+const files = require("../utils/files");
+const questions = require("./questions");
 
 // not in use yet
 function askInstallDependeciesNow(){
@@ -33,26 +30,24 @@ function showInstructions(initData) {
   { padding: 1 }));
 }
 
-function editPackageData(appName) {
-  let rawdata = fs.readFileSync(`./${appName}/package.json`);
-  let package = JSON.parse(rawdata);
-  package.name = appName;
-  let data = JSON.stringify(package, null, 2);
-  fs.writeFileSync(`./${appName}/package.json`, data);
-}
-
 const initializeCms = async () => {
-  const initData = await askInitialQuestions();
+  const initData = await questions.askInitialQuestions();
   const {appName, username, email, password } = initData;
 
   log.info("\nDownloading last version of Nayra CMS API from Github...");
-  git("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
-    if (err) log.error(err);
-    // uses the sync file system 
-    createSuperAdminMigration({ appName, username, email, password });
-    // change sync the app name in the package
-    editPackageData(appName);
-    showInstructions(initData);
+  files.downloadRepo("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
+    if (err) 
+      return log.error(err);
+
+    try {
+      // uses the sync file system 
+      migrationHelper.createSuperAdminMigration({ appName, username, email, password });
+      // change sync the app name in the package
+      files.editPackageData(appName);
+      showInstructions(initData);
+    } catch (error) {
+      log.error(err)
+    }
   });
 };
 

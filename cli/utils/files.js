@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const log = require("./logger");
+const git = require("download-git-repo");
 
 const createDir = (dirPath) => {
   // think if should be better to use async variant
@@ -30,9 +31,27 @@ const directoryExists = (filePath) => {
   return fs.existsSync(filePath);
 };
 
+const downloadRepo = (url, destination, cb) => {
+  git(url, destination, cb);
+};
+
+function editPackageData(appName) {
+  try {
+    let rawdata = fs.readFileSync(`./${appName}/package.json`);
+    let package = JSON.parse(rawdata);
+    package.name = appName;
+    let data = JSON.stringify(package, null, 2);
+    fs.writeFileSync(`./${appName}/package.json`, data);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   getCurrentDirectoryBase,
   directoryExists,
   createDir,
-  createFile
+  createFile,
+  downloadRepo,
+  editPackageData
 };
