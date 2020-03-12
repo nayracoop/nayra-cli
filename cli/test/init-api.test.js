@@ -28,7 +28,7 @@ describe("init-api command", (done) => {
     sandbox.restore();
   });
 
-  it.only("should do the initial procedures for creating the api", async () => {
+  it("should do the initial procedures for creating the api", async () => {
     await initializeCms();
     assert(askInitialQuestionsStub.calledOnce, "questions called more than once");
     assert(askInitialQuestionsStub.calledBefore(downloadRepoStub), "questions should be asked before");
