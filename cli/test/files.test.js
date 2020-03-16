@@ -6,12 +6,14 @@ const fs = require("fs");
 const mock = require("mock-fs");
 const files = require("../utils/files");
 
+
 const appName = "paletobich";
 const packagePath = `./${appName}/package.json`;
 
 
 describe("Files utilities", () => {
   beforeEach(() => {
+    // maybe this is causing utils/files.js is not coverered
     mock({
       [packagePath]: '{"name":"nayra-cli", "version":"fakeNumber"}'
     });
