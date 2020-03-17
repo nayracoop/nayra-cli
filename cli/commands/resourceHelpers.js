@@ -10,8 +10,8 @@ const ejs = require("ejs");
 
 const log = require("../utils/logger");
 const { capitalize } = require("../utils/text");
-const { createDir, createFile } = require("../utils/files");
-const { askResourceQuestions, askSchemaFields } = require("./questions");
+const files = require("../utils/files");
+const questions = require("./questions");
 
 /**
  * read route file for register new routes
@@ -25,7 +25,7 @@ const registerNewRoutes = (resourceSingular, workingDirectory) => {
   let initLineNumber = null;
 
   const routesConfig = path.join(workingDirectory, "server/config/routes.config.js");
-  const data = fs.readFileSync(routesConfig).toString().split("\n");
+  const data = files.readFile(routesConfig).split("\n");
 
   // search for marker strings and get line numbers. maybe not the best way
   data.forEach((line, index) => {
@@ -42,12 +42,12 @@ const registerNewRoutes = (resourceSingular, workingDirectory) => {
     data.splice(fileLineNumber, 0, `const { ${capitalize(resourceSingular)}Routes } = require("../api/${resourceSingular}/routes/${resourceSingular}-routes");\n`);
     data.splice(initLineNumber, 0, `    ${capitalize(resourceSingular)}Routes.init(router);`);
     const text = data.join("\n");
-    createFile(routesConfig, text);
+    files.createFile(routesConfig, text);
   }
 };
 
 const addNewResource = async () => {
-  let { modelName, modelNamePlural } = await askResourceQuestions();
+  let { modelName, modelNamePlural } = await questions.askResourceQuestions();
   const fieldList = [];
   let continueAskingFields = true;
 
@@ -55,7 +55,7 @@ const addNewResource = async () => {
   log.info("\n");
   log.info(`Insert the fields for ${chalk.keyword("coral")(modelName)} schema`);
   while (continueAskingFields) {
-    const { addNew, fieldName, fieldType, fieldProps } = await askSchemaFields();
+    const { addNew, fieldName, fieldType, fieldProps } = await questions.askSchemaFields();
     fieldList.push({ fieldName, fieldType, fieldProps });
     continueAskingFields = addNew;
     log.info(`${chalk.keyword("yellow")("-------------------------")}`);
@@ -79,7 +79,7 @@ const addNewResource = async () => {
   const workingDirectory = process.cwd();
 
   const resourcePath = path.join(workingDirectory, "server/api", modelNameLower);
-  createDir(resourcePath);
+  files.createDir(resourcePath);
 
   filesToCreate.forEach((file) => {
     const templateFilePath = path.join(templatePath, file);
@@ -98,11 +98,11 @@ const addNewResource = async () => {
         destinationFilePath = path.join(workingDirectory, "server", "api", modelNameLower, folderName, `${modelNameLower}-${folderName}.js`);
       }
 
-      createDir(destinationFolderPath);
-      createFile(destinationFilePath, fileContents);
+      files.createDir(destinationFolderPath);
+      files.createFile(destinationFilePath, fileContents);
     }
   });
-
+  
   registerNewRoutes(modelNameLower, workingDirectory);
 
   log.info(boxen(`Resource ${chalk.keyword("coral")(modelName)} has been created succesfully!`, { padding: 1 }));

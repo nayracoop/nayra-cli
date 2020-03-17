@@ -14,6 +14,22 @@ const createDir = (dirPath) => {
   }
 };
 
+/**
+ * 
+ * @param {String} _path - the file path
+ * @param {String} encoding - utf8 by default
+ * @param {String|Buffer} string - true by default. If false will return a Buffer
+ */
+const readFile = (_path, encoding = "utf8", str = true) => {
+  try {
+    let data = fs.readFileSync(_path, encoding);
+
+    return str ? data.toString() : data;
+  } catch (err) {
+    log.error(`There was an error when trying to read a file: ${_path}`, err);
+  }
+}
+
 const createFile = (_path, content) => {
   // think if should be better to use async variant
   try {
@@ -52,6 +68,7 @@ module.exports = {
   getCurrentDirectoryBase,
   directoryExists,
   createDir,
+  readFile,
   createFile,
   downloadRepo,
   editPackageData

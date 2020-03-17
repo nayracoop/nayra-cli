@@ -16,12 +16,11 @@ const password = "notSecure";
 let downloadRepoStub, editPackageDataStub, createSuperAdminMigrationStub, askInitialQuestionsStub;
 
 describe("init-api command", (done) => {
-  beforeEach((done) => {
+  beforeEach(() => {
     downloadRepoStub = sandbox.stub(files, "downloadRepo").callsFake((a,b, cb) => {cb();});
     editPackageDataStub = sandbox.stub(files, "editPackageData").returns(true);
     createSuperAdminMigrationStub = sandbox.stub(migrationHelper, "createSuperAdminMigration").returns(true);
     askInitialQuestionsStub = sandbox.stub(questions, "askInitialQuestions").returns({ appName, username, email, password });
-    done();
   });
 
   afterEach(() => {
