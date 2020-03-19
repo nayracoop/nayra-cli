@@ -11,40 +11,8 @@ const ejs = require("ejs");
 const log = require("../utils/logger");
 const { capitalize } = require("../utils/text");
 const files = require("../utils/files");
+const routeRegister = require("../utils/route_register");
 const questions = require("./questions");
-
-/**
- * read route file for register new routes
- */
-const registerNewRoutes = (resourceSingular, workingDirectory) => {
-  // these markers are used to find the required line numbers for route registering
-  const routeFileMarker = /route definition/;
-  const routeInitMarker = /routes initializers/;
-
-  let fileLineNumber = null;
-  let initLineNumber = null;
-
-  const routesConfig = path.join(workingDirectory, "server/config/routes.config.js");
-  const data = files.readFile(routesConfig).split("\n");
-
-  // search for marker strings and get line numbers. maybe not the best way
-  data.forEach((line, index) => {
-    if (line.match(routeFileMarker)) {
-      fileLineNumber = index;
-    }
-
-    if (line.match(routeInitMarker)) {
-      initLineNumber = index;
-    }
-  });
-
-  if (fileLineNumber && initLineNumber) {
-    data.splice(fileLineNumber, 0, `const { ${capitalize(resourceSingular)}Routes } = require("../api/${resourceSingular}/routes/${resourceSingular}-routes");\n`);
-    data.splice(initLineNumber, 0, `    ${capitalize(resourceSingular)}Routes.init(router);`);
-    const text = data.join("\n");
-    files.createFile(routesConfig, text);
-  }
-};
 
 const addNewResource = async () => {
   let { modelName, modelNamePlural } = await questions.askResourceQuestions();
@@ -103,12 +71,11 @@ const addNewResource = async () => {
     }
   });
   
-  registerNewRoutes(modelNameLower, workingDirectory);
+  routeRegister.newRoute(modelNameLower, workingDirectory);
 
   log.info(boxen(`Resource ${chalk.keyword("coral")(modelName)} has been created succesfully!`, { padding: 1 }));
 };
 
 module.exports = {
-  addNewResource,
-  registerNewRoutes
+  addNewResource
 };

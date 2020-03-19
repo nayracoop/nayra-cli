@@ -3,12 +3,10 @@ const sandbox = require("sinon").createSandbox();
 const resourceHelpers = require("../commands/resourceHelpers");
 const questions = require("../commands/questions");
 const files = require("../utils/files");
+const logger = require("../utils/logger");
+const routeRegister = require("../utils/route_register");
 const fs = require("fs");
 const path = require("path");
-
-let spyConsole = null;
-let stubFiles = null;
-let stubDir = null;
 
 const modelName = "gatito";
 const modelNamePlural = "gatitos";
@@ -19,9 +17,6 @@ const resourceFolders = [
 
 describe("add-resource", () => {
   beforeEach(() => {
-
-    registerRoutesStub = sandbox.stub(resourceHelpers, "registerNewRoutes").returns(1);
-
     askResourceQuestionsStub = sandbox.stub(questions, "askResourceQuestions").returns({ modelName, modelNamePlural });
     askSchemaFieldsStub = sandbox.stub(questions, "askSchemaFields");
 
@@ -36,6 +31,8 @@ describe("add-resource", () => {
     readFileStub = sandbox.stub(files, "readFile").returns(fs.readFileSync(mockRoutesConfig, "utf8"));
     createFileStub = sandbox.stub(files, "createFile").returns(true);
     createDirStub = sandbox.stub(files, "createDir").returns(true);
+
+    // newRouteSpy = sandbox.stub(routeRegister, "newRoute");
   });
 
   afterEach(() => {
@@ -57,16 +54,8 @@ describe("add-resource", () => {
       } else {
         expect(createFileStub.getCall(i).args[0]).to.be.eql(`${process.cwd()}/server/api/${modelName}/${resourceFolders[i]}/${modelName}-${resourceFolders[i]}.js`);
       }
-      
     }
-
-    // assert(spyConsole.withArgs(`Creating api resources for: ${name}`).calledOnce);
-    // assert(spyConsole.withArgs(`created new folder ../server/api/${name}`).calledOnce);
-
-  });
-
-  // TO DO
-  it.skip("register new route", () => {
-    registerNewRoutes("media");
+    // expect(newRouteSpy.firstCall.args[0]).to.be.eql(modelName);
+    // expect(newRouteSpy.firstCall.args[1]).to.be.eql(process.cwd());
   });
 });
