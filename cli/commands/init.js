@@ -4,6 +4,7 @@ const boxen = require("boxen");
 const migrationHelper = require("../utils/migration");
 const log = require("../utils/logger");
 const files = require("../utils/files");
+const git = require("../utils/git");
 const questions = require("./questions");
 
 // not in use yet
@@ -35,9 +36,11 @@ const initializeCms = async () => {
   const {appName, username, email, password } = initData;
 
   log.info("\nDownloading last version of Nayra CMS API from Github...");
-  files.downloadRepo("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
-    if (err) 
+  git.downloadRepo("nayracoop/nayra-cms-api", `./${appName}`, (err) => {
+    if (err) {
+      log.error("An error ocurred whem retrieving the current Nayra CMS release:");
       return log.error(err);
+    }
 
     try {
       // uses the sync file system 
@@ -45,8 +48,8 @@ const initializeCms = async () => {
       // change sync the app name in the package
       files.editPackageData(appName);
       showInstructions(initData);
-    } catch (error) {
-      log.error(err)
+    } catch (_err) {
+      log.error(_err)
     }
   });
 };

@@ -1,7 +1,7 @@
 {
   "all": true,
   "include": [
-    "cli", "index.js", "cli/utils"
+    "cli", "cli/utils"
   ],
   "requires": [
    
