@@ -32,7 +32,7 @@ describe("add-resource", () => {
     createFileStub = sandbox.stub(files, "createFile").returns(true);
     createDirStub = sandbox.stub(files, "createDir").returns(true);
 
-    // newRouteSpy = sandbox.stub(routeRegister, "newRoute");
+    newRouteSpy = sandbox.stub(routeRegister, "newRoute");
   });
 
   afterEach(() => {
@@ -55,7 +55,8 @@ describe("add-resource", () => {
         expect(createFileStub.getCall(i).args[0]).to.be.eql(`${process.cwd()}/server/api/${modelName}/${resourceFolders[i]}/${modelName}-${resourceFolders[i]}.js`);
       }
     }
-    // expect(newRouteSpy.firstCall.args[0]).to.be.eql(modelName);
-    // expect(newRouteSpy.firstCall.args[1]).to.be.eql(process.cwd());
+    // check route register call
+    expect(newRouteSpy.firstCall.args[0]).to.be.eql(modelName);
+    expect(newRouteSpy.firstCall.args[1]).to.be.eql(process.cwd());
   });
 });
