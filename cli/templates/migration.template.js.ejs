@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const password = "<%-cliPassword%>";
 const username = "<%-cliUsername%>";
 const email = "<%-cliEmail%>";
+const permissions = <%-JSON.stringify(permissions)%>;
 
 exports.getVersion = () => __filename.replace(path.join(__dirname, "/"), "");
 
@@ -26,7 +27,8 @@ exports.up = async (db, cb) => {
     email,
     hash,
     salt,
-    emailConfirmed: true
+    emailConfirmed: true,
+    permissions
   };
 
   db.collection("accounts").insertOne(account, (err) => {

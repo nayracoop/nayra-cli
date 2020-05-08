@@ -32,6 +32,7 @@ function basicMigration() {
 
 // in this case is prefered to use sync file writing
 function createSuperAdminMigration({ appName, username, email, password }) {
+  const permissions = ["user:read", "user:create", "user:update", "user:delete"];
   const templateFileName = path.join(__dirname, "..", "templates", "migration.template.js.ejs");
   const workingDirectory = process.cwd();
   const destinationFileName = path.join(workingDirectory, appName,`tasks/migrations/${timestamp}_create_super_admin_user.js`);
@@ -41,7 +42,8 @@ function createSuperAdminMigration({ appName, username, email, password }) {
   const contents = ejs.render(template, {
     cliPassword: password,
     cliUsername: username,
-    cliEmail: email
+    cliEmail: email,
+    permissions
   });
   
   try {
