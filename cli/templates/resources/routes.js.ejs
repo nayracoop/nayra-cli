@@ -5,7 +5,7 @@
     modelNamePlural : "Currencies"
     modelNamePluralLower : "currencies"
 */
-const { checkJwt, shapeQuery } = require("../../../middleware");
+const { checkJwt, checkPermissions, shapeQuery } = require("../../../middleware");
 const { <%-modelName%>Schema } = require("../model/<%-modelNameLower%>-model");
 const { <%-modelName%>Controller } = require("../controller/<%-modelNameLower%>-controller");
 
@@ -15,14 +15,14 @@ class <%-modelName%>Routes {
 
     router
       .route("/api/<%-modelNamePluralLower%>")
-      .post([checkJwt, <%-modelNameLower%>Controller.createNew])
-      .get([checkJwt, shapeQuery(<%-modelName%>Schema), <%-modelNameLower%>Controller.getAll]);
+      .post([checkJwt, checkPermissions(["<%-modelNameLower%>:create"]), <%-modelNameLower%>Controller.createNew])
+      .get([checkJwt, checkPermissions(["<%-modelNameLower%>:read"]),shapeQuery(<%-modelName%>Schema), <%-modelNameLower%>Controller.getAll]);
 
     router
       .route("/api/<%-modelNamePluralLower%>/:id")
-      .get([checkJwt, <%-modelNameLower%>Controller.getById])
-      .put([checkJwt, <%-modelNameLower%>Controller.updateById])
-      .delete([checkJwt, <%-modelNameLower%>Controller.removeById]);
+      .get([checkJwt, checkPermissions(["<%-modelNameLower%>:read"]), <%-modelNameLower%>Controller.getById])
+      .put([checkJwt, checkPermissions(["<%-modelNameLower%>:update"]), <%-modelNameLower%>Controller.updateById])
+      .delete([checkJwt, checkPermissions(["<%-modelNameLower%>:delete"]), <%-modelNameLower%>Controller.removeById]);
   }
 }
 
